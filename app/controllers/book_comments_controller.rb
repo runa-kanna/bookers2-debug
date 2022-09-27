@@ -1,4 +1,4 @@
-class BookCommentController < ApplicationController
+class BookCommentsController < ApplicationController
   
   def create
     book = Book.find(params[:book_id])
@@ -14,7 +14,7 @@ class BookCommentController < ApplicationController
   end
 
   
-  parivate
+  private
   
   def book_comment_params
     params.require(:book_comment).permit(:comment)
