@@ -18,16 +18,16 @@
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
 
-          <td>
+          <td id="favorite_buttons_<%= @book.id %>">
             <% if @book.favorited_by?(current_user) %>
               <p>
-                <%= link_to book_favorites_path(@book), method: :delete do %>
+                <%= link_to book_favorites_path(@book), method: :delete, remote: true do %>
                   ♥<%= @book.favorites.count %>
                 <% end %>
               </p>
             <% else %>
               <p>
-                <%= link_to book_favorites_path(@book), method: :post do %>
+                <%= link_to book_favorites_path(@book), method: :post, remote: true do %>
                   ♡<%= @book.favorites.count %>
                 <% end %>
               </p>
