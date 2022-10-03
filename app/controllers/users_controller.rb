@@ -13,6 +13,13 @@ class UsersController < ApplicationController
     
     @today_book = @books.created_today
     @yesterday_book = @books.created_yesterday
+    @deys2_ago_book = @books.created_2deys_ago
+    @deys3_ago_book = @books.created_3deys_ago
+    @deys4_ago_book = @books.created_4deys_ago
+    @deys5_ago_book = @books.created_5deys_ago
+    @deys6_ago_book = @books.created_6deys_ago
+    
+    
     @this_week_book = @books.created_this_week
     @last_week_book = @books.created_last_week
   end
