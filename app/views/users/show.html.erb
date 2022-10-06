@@ -14,53 +14,73 @@
       <%= render 'books/index',books: @books %>
 
 
-        <table class="table table-bordered">
+       <table class="table table-bordered">
+          <h3>7日分の投稿数</h3>
           <thead>
             <tr>
-              <th>今週の投稿数</th>
-              <th>先週の投稿数</th>
-              <th>前週比</th>
+              <th>6日前</th>
+              <th>5日前</th>
+              <th>4日前</th>
+              <th>3日前</th>
+              <th>2日前</th>
+              <th>昨日</th>
+              <th>今日</th>
             </tr>
           </thead>
           <today>
             <tr>
-              <td><%= @this_week_book.count %></td>
-              <td><%= @last_week_book.count %></td>
-              <td>
-                <% if @last_week_book.count == 0 %>
-                先週の投稿はありません
-                <% else %>
-                  <% @the_week_before = @this_week_book.count / @last_week_book.count.to_f %>
-                  <%= (@the_week_before * 100).round %>
-                <% end %>
-              </td>
+              <td><%= @deys6_ago_book.count %></td>
+              <td><%= @deys5_ago_book.count %></td>
+              <td><%= @deys4_ago_book.count %></td>
+              <td><%= @deys3_ago_book.count %></td>
+              <td><%= @deys2_ago_book.count %></td>
+              <td><%= @yesterday_book.count %></td>
+              <td><%= @today_book.count %></td>
             </tr>
           </today>
         </table>
 
         <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>今日の投稿数</th>
-              <th>昨日の投稿数</th>
-              <th>昨日比</th>
-            </tr>
-          </thead>
-          <today>
-            <tr>
-              <td><%= @today_book.count %></td>
-              <td><%= @yesterday_book.count %></td>
-              <td>
-                <% if @yesterday_book.count == 0 %>
-                前日投稿はありません
-                <% else %>
-                  <% @the_day_before = @today_book.count / @yesterday_book.to_f %>
-                  <%= (@the_day_before * 100).round %>
-                <% end %>
-              </td>
-            </tr>
-          </today>
-        </table>
+          <h3>7日間の投稿数の比較</h3>
+
+            <canvas id="myLineChart"></canvas>
+          <script>
+              $(document).on('turbolinks:load', function() {
+              var ctx = document.getElementById("myLineChart");
+              var myLineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+                  datasets: [
+                    {
+                      label: '投稿した本の数',
+                      data: [<%= @deys6_ago_book.count %>, <%= @deys5_ago_book.count %>, <%= @deys4_ago_book.count %>, <%= @deys3_ago_book.count %>, <%= @deys2_ago_book.count %>, <%= @yesterday_book.count %>, <%= @today_book.count%>],
+                      borderColor: "rgba(0,0,255,1)",
+                      backgroundColor: "rgba(0,0,0,0)"
+                    }
+                  ],
+                },
+                options: {
+                  title: {
+                    display: true,
+                    text: '7日間の投稿数の比較'
+                  },
+                  scales: {
+                    yAxes: [{
+                      ticks: {
+                        suggestedMax: 10,
+                        suggestedMin: 0,
+                        stepSize: 1,
+                        callback: function(value, index, values){
+                          return  value
+                        }
+                      }
+                    }]
+                  },
+                }
+              });
+            });
+          </script>
 
     </div>
   </div>
