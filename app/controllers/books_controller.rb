@@ -5,6 +5,7 @@ class BooksController < ApplicationController
     @book = Book.new
     @books = Book.all
     @user = current_user
+   
   end
 
   def show
@@ -48,6 +49,7 @@ class BooksController < ApplicationController
     @book.destroy
     redirect_to books_path
   end
+  
 
   private
 
