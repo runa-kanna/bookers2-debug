@@ -14,7 +14,7 @@
       <%= render 'books/index',books: @books %>
 
 
-       <table class="table table-bordered">
+        <table class="table table-bordered">
           <h3>7日分の投稿数</h3>
           <thead>
             <tr>
@@ -39,49 +39,22 @@
             </tr>
           </today>
         </table>
+      </div>
 
-        <table class="table table-bordered">
-          <h3>7日間の投稿数の比較</h3>
 
-            <canvas id="myLineChart"></canvas>
-          <script>
-              $(document).on('turbolinks:load', function() {
-              var ctx = document.getElementById("myLineChart");
-              var myLineChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                  labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
-                  datasets: [
-                    {
-                      label: '投稿した本の数',
-                      data: [<%= @deys6_ago_book.count %>, <%= @deys5_ago_book.count %>, <%= @deys4_ago_book.count %>, <%= @deys3_ago_book.count %>, <%= @deys2_ago_book.count %>, <%= @yesterday_book.count %>, <%= @today_book.count%>],
-                      borderColor: "rgba(0,0,255,1)",
-                      backgroundColor: "rgba(0,0,0,0)"
-                    }
-                  ],
-                },
-                options: {
-                  title: {
-                    display: true,
-                    text: '7日間の投稿数の比較'
-                  },
-                  scales: {
-                    yAxes: [{
-                      ticks: {
-                        suggestedMax: 10,
-                        suggestedMin: 0,
-                        stepSize: 1,
-                        callback: function(value, index, values){
-                          return  value
-                        }
-                      }
-                    }]
-                  },
-                }
-              });
-            });
-          </script>
+          <!--折れ線グラフ-->
+     <div class="user_show_margin">
+       <%= render "users/graph" %>
+     </div>
 
-    </div>
-  </div>
-</div>
+        
+        <%= form_with url: user_search_path(@user), method: :get do |f| %>
+          <%= f.date_field :created_at %>　
+          <%= f.submit '検索', class: 'btn btn-primary'  %>
+        <% end %>
+
+        <div id="search_result"> 
+          <% if @search_book.present? %>
+            <%= render 'search', search_book: @search_book %>
+          <% end %>
+        </div>
